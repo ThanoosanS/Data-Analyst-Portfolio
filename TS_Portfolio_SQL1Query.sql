@@ -1,3 +1,6 @@
+-- SQL Queries for COVID data
+-- Data acquired from https://ourworldindata.org/
+
 -- Total Cases in Canada
 -- Uses WHERE, ORDER BY 
 SELECT Location, date, total_cases, new_cases 
