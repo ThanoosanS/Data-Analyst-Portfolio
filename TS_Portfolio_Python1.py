@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[48]:
-
-
-# Amazon Web Scraper using Python
+# Amazon Web Scraper using Python on Jupyter Notebooks
 
 # import libraries 
 import requests
@@ -32,10 +26,6 @@ print(price)
 
 today = datetime.date.today()
 
-
-# In[49]:
-
-
 import csv #for creating .csv files
 
 header = ['Title','Price','Date']
@@ -45,31 +35,18 @@ with open('AmazonWebScrapData.csv','w', newline='',encoding='UTF8') as f:
     writer = csv.writer(f)
     writer.writerow(header)
     writer.writerow(data)
-    
 
-
-# In[50]:
-
-
+# Using pandas to view .csv file
 import pandas as pd
 
 df = pd.read_csv(r'C:\Users\sathi\AmazonWebScrapData.csv')
 
 print(df)
 
-
-# In[ ]:
-
-
 # Append data
-
 with open('AmazonWebScrapData.csv','a+', newline='',encoding='UTF8') as f:
     writer = csv.writer(f)
     writer.writerow(data)
-
-
-# In[51]:
-
 
 # Price monitoring 
 def check_price():
@@ -97,11 +74,6 @@ def check_price():
     with open('AmazonWebScrapData.csv','a+', newline='',encoding='UTF8') as f:
         writer = csv.writer(f)
         writer.writerow(data)
-        
-
-
-# In[ ]:
-
 
 while(True):
     check_price()
