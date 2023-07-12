@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[13]:
-
-
 #Automated Crypto Website API
 # From CoinMarketCap API Documentation
 
@@ -35,10 +29,6 @@ except (ConnectionError, Timeout, TooManyRedirects) as e:
 # If it does not load do to data rate limit:
 # Anaconda Prompt: jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 
-
-# In[14]:
-
-
 import pandas as pd
 global df
 pd.set_option('display.max_columns',None)
@@ -47,10 +37,6 @@ df = pd.json_normalize(data['data'])
 #Add a timestamp column
 df['timestamp'] = pd.to_datetime('now')
 df 
-
-
-# In[ ]:
-
 
 #Created function
 def api_runner():
@@ -90,10 +76,6 @@ def api_runner():
     else: #Append df if the .csv already exists
         df.to_csv(r'C:\Users\sathi\OneDrive\Desktop\Portfolio\Python\TS_Portfolio_Python3API.csv',mode='a',header=False)
 
-
-# In[71]:
-
-
 #Imports needed for time series (intervals)
 import os
 from time import time
@@ -105,98 +87,48 @@ for i in range(333): #333 times a day allowed (from API)
     sleep(60) #run every minute 
 exit
 
-
-# In[38]:
-
-
 #Read the .csv file created earlier
 df_Trial = pd.read_csv(r'C:\Users\sathi\OneDrive\Desktop\Portfolio\Python\TS_Portfolio_Python3API.csv')
 df_Trial
 
-
-# In[39]:
-
-
 #removes scientific notation (optional)
 pd.set_option('display.float_format', lambda x: '%.5f' % x) 
-
-
-# In[41]:
-
 
 #Group by cryptocurrency
 df3 = df.groupby('name',sort=False)[['quote.USD.percent_change_1h','quote.USD.percent_change_24h','quote.USD.percent_change_7d','quote.USD.percent_change_30d']].mean()
 df3 
 
-
-# In[42]:
-
-
 #Similar to a pivot table (Excel)
 df4=df3.stack() 
 df4
 
-
-# In[44]:
-
-
 #convert to a dataframe from a series
 df5=df4.to_frame(name='values') 
 df5
-
-
-# In[45]:
-
-
 df5.count()
-
-
-# In[48]:
-
 
 #Add index based on count function from previous line of code 
 ind = pd.Index(range(60))
 df6 = df5.reset_index()
 df6
 
-
-# In[52]:
-
-
 #Rename column
 df7 = df6.rename(columns={'level_1':'Percent_change'})
 df7
-
-
-# In[66]:
-
 
 #Change the parameter names on table
 df7['Percent_change'] = df7['Percent_change'].replace(['quote.USD.percent_change_1h','quote.USD.percent_change_24h','quote.USD.percent_change_7d','quote.USD.percent_change_30d','quote.USD.percent_change_60d','quote.USD.percent_change_90d'],['1h','24h','7d','30d','60d','90d'])
 df7
 
-
-# In[67]:
-
-
 #Visualization
 import seaborn as sns
 import matplotlib.pyplot as plt
-
 sns.catplot(x='Percent_change',y='values',hue='name',data=df7,kind='point')
-
-
-# In[72]:
-
 
 #Get the price of bitcoin vs. timestamp
 dfprice=df[['name','quote.USD.price','timestamp']]
 dfquery = dfprice.query("name == 'Bitcoin'")
 dfquery
-
-
-# In[ ]:
-
 
 #Price of bitcoin over automated time
 sns.set_theme(style="darkgrid")
